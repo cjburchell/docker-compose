@@ -1,0 +1,51 @@
+package docker_compose
+
+import (
+	"io/ioutil"
+
+	"gopkg.in/yaml.v2"
+)
+
+type File struct {
+	Version  string             `yaml:"version"`
+	Services map[string]Service `yaml:"services"`
+}
+
+type Service struct {
+	Image       string   `yaml:"image"`
+	Ports       []string `yaml:"ports,omitempty"`
+	Environment []string `yaml:"environment,omitempty"`
+}
+
+func (f File) SaveFile(path string) error {
+	d, err := f.SaveBytes()
+	if err != nil {
+		return err
+	}
+
+	return ioutil.WriteFile(path, d, 0644)
+}
+
+func (f File) SaveBytes() ([]byte, error) {
+	return yaml.Marshal(&f)
+}
+
+func LoadFile(path string) (File, error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		return File{}, err
+	}
+
+	return LoadBytes(data)
+}
+
+func LoadBytes(data []byte) (File, error) {
+	file := File{}
+
+	err := yaml.Unmarshal(data, &file)
+	if err != nil {
+		return file, err
+	}
+
+	return file, nil
+}
