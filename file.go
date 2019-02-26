@@ -12,9 +12,13 @@ type File struct {
 }
 
 type Service struct {
-	Image       string   `yaml:"image"`
-	Ports       []string `yaml:"ports,omitempty"`
+	Image       string   `yaml:"image,omitempty"`
+	Build       string   `yaml:"build,omitempty"`
+	Command     string   `yaml:"command,omitempty"`
 	Environment []string `yaml:"environment,omitempty"`
+	Volumes     []string `yaml:"volumes,omitempty"`
+	DependsOn   []string `yaml:"depends_on,omitempty"`
+	Ports       []string `yaml:"ports,omitempty"`
 }
 
 func (f File) SaveFile(path string) error {

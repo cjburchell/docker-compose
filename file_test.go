@@ -11,7 +11,7 @@ func TestTest(t *testing.T) {
 	redisFile := File{
 		Version: "2",
 		Services: map[string]Service{
-			"redis": Service{
+			"redis": {
 				Image: "redis:latest",
 				Ports: []string{"6379:6379"},
 			},
