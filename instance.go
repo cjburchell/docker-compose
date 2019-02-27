@@ -7,7 +7,7 @@ import (
 	"github.com/cjburchell/go-uatu"
 )
 
-type IStack interface {
+type IContainers interface {
 	Down()
 	Log() error
 	Up() error
@@ -16,11 +16,11 @@ type IStack interface {
 	LogService(service string) error
 }
 
-type stack struct {
+type containers struct {
 	path string
 }
 
-func (i stack) Build() error {
+func (i containers) Build() error {
 	cmd, err := i.dockerCommand("build")
 	if err != nil {
 		return err
@@ -29,25 +29,25 @@ func (i stack) Build() error {
 	return cmd.Wait()
 }
 
-func Create() IStack {
-	return stack{}
+func Create() IContainers {
+	return containers{}
 }
 
-func CreateFile(path string) IStack {
-	return stack{path: path}
+func CreateFile(path string) IContainers {
+	return containers{path: path}
 }
 
-func (i stack) Log() error {
+func (i containers) Log() error {
 	_, err := i.dockerCommand("logs", "-f", "--tail=0")
 	return err
 }
 
-func (i stack) LogService(service string) error {
+func (i containers) LogService(service string) error {
 	_, err := i.dockerCommand("logs", "-f", "--tail=0", service)
 	return err
 }
 
-func (i stack) Up() error {
+func (i containers) Up() error {
 	cmd, err := i.dockerCommand("up", "-d")
 	if err != nil {
 		return err
@@ -56,7 +56,7 @@ func (i stack) Up() error {
 	return cmd.Wait()
 }
 
-func (i stack) dockerCommand(command string, args ...string) (*exec.Cmd, error) {
+func (i containers) dockerCommand(command string, args ...string) (*exec.Cmd, error) {
 	var cmd *exec.Cmd
 	var arguments []string
 	if len(i.path) == 0 {
@@ -75,7 +75,7 @@ func (i stack) dockerCommand(command string, args ...string) (*exec.Cmd, error) 
 	return cmd, nil
 }
 
-func (i stack) Down() {
+func (i containers) Down() {
 	cmd, err := i.dockerCommand("down")
 	if err != nil {
 		log.Fatal(err)
@@ -86,7 +86,7 @@ func (i stack) Down() {
 	}
 }
 
-func (i stack) Stop() {
+func (i containers) Stop() {
 	cmd, err := i.dockerCommand("stop")
 	if err != nil {
 		log.Fatal(err)
