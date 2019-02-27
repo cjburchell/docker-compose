@@ -9,6 +9,11 @@ import (
 type File struct {
 	Version  string             `yaml:"version"`
 	Services map[string]Service `yaml:"services"`
+	Networks map[string]Network `yaml:"networks,omitempty"`
+}
+
+type Network struct {
+	External bool `yaml:"external,omitempty"`
 }
 
 type Service struct {
@@ -19,6 +24,9 @@ type Service struct {
 	Volumes     []string `yaml:"volumes,omitempty"`
 	DependsOn   []string `yaml:"depends_on,omitempty"`
 	Ports       []string `yaml:"ports,omitempty"`
+	NetworkMode string   `yaml:"network_mode,omitempty"`
+	Networks    []string `yaml:"networks,omitempty"`
+	Links       []string `yaml:"links,omitempty"`
 }
 
 func (f File) SaveFile(path string) error {
