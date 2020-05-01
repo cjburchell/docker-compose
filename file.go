@@ -3,7 +3,7 @@ package docker_compose
 import (
 	"io/ioutil"
 
-	"gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v2"
 )
 
 type File struct {
@@ -27,6 +27,8 @@ type Service struct {
 	NetworkMode string   `yaml:"network_mode,omitempty"`
 	Networks    []string `yaml:"networks,omitempty"`
 	Links       []string `yaml:"links,omitempty"`
+	Expose      []string `yaml:"expose,omitempty"`
+	Scale       int      `yaml:"scale,omitempty"`
 }
 
 func (f File) SaveFile(path string) error {
