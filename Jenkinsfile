@@ -26,6 +26,7 @@ pipeline{
                     }
                     steps {
                         script{
+                                sh """go get gopkg.in/yaml.v2"""
                                 sh """go get github.com/pkg/errors"""
                                 sh """go vet ./..."""
 
@@ -46,6 +47,7 @@ pipeline{
                         script{
 
                             sh """go get github.com/pkg/errors"""
+                            sh """go get gopkg.in/yaml.v2"""
                             sh """golint ./..."""
 
                             def checkLint = scanForIssues tool: [$class: 'GoLint']

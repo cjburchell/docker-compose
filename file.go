@@ -3,7 +3,7 @@ package docker_compose
 import (
 	"io/ioutil"
 
-	yaml "gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v2"
 )
 
 type File struct {

@@ -79,8 +79,6 @@ func (i containers) dockerCommand(command string, output io.Writer, args ...stri
 
 	return cmd, nil
 }
-
-	cmd, err := i.dockerCommand("down", os.Stdout)
     
 func (i containers) Down() error {
 	cmd, err := i.dockerCommand("down", os.Stdout)
