@@ -16,7 +16,6 @@ stages:
 go-vet:
   stage: style
   script:
-    - cd server
     - go fmt $(go list ./... | grep -v /vendor/)
     - go vet $(go list ./... | grep -v /vendor/)
 

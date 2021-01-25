@@ -1,4 +1,4 @@
-package docker_compose
+package dockercompose
 
 import (
 	"io"
@@ -6,6 +6,7 @@ import (
 	"os/exec"
 )
 
+//IContainers interface
 type IContainers interface {
 	Down() error
 	Log() error
@@ -29,10 +30,12 @@ func (i containers) Build() error {
 	return cmd.Wait()
 }
 
+//Create the container
 func Create() IContainers {
 	return containers{}
 }
 
+//CreateFile create the container from a file
 func CreateFile(path string) IContainers {
 	return containers{path: path}
 }
